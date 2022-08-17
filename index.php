@@ -1,14 +1,13 @@
 <?php
 require 'config.php';
+require 'dao/UsuarioDaoMysql.php';
 
-$lista = [];
-
-$sql = $pdo->query("SELECT * FROM usuarios");
-if($sql->rowCount() > 0){
-    $lista = $sql->fetchAll(PDO::FETCH_ASSOC);
-}
+$usuarioDao = new UsuarioDaoMysql($pdo);
+$lista = $usuarioDao->findAll();
 
 ?>
+
+
 
 <a href="adicionar.php">Adicionar Usuario</a>
 
@@ -24,12 +23,12 @@ if($sql->rowCount() > 0){
         foreach($lista as $user):
     ?>
         <tr>
-            <td><?= $user['id'];?></td>
-            <td><?= $user['nome'];?></td>
-            <td><?= $user['email'];?></td>
+            <td><?= $user->getId();?></td>
+            <td><?= $user->getNome();?></td>
+            <td><?= $user->getEmail();?></td>
             <td>
-                <a href="editar.php?id=<?= $user['id'];?>">[ EDITAR ]</a>
-                <a href="excluir.php?id=<?= $user['id'];?>">[ EXCLUIR ]</a>
+                <a href="editar.php?id=<?= $user->getId();?>">[ EDITAR ]</a>
+                <a href="excluir.php?id=<?= $user->getId();?>">[ EXCLUIR ]</a>
             </td>
         </tr>
     <?php
